@@ -20,12 +20,12 @@ match_ids = resp.json()
 print(match_ids)
 
 api_url_matchid = "https://americas.api.riotgames.com/lol/match/v5/matches/NA1_4836852673"
-# This one doesn't have any arguments (see, there's no "?" above) so we'll add it with the api key
+
 api_url_matchid = api_url_matchid + '?api_key=' + api_key
 resp = requests.get(api_url_matchid)
 match_data = resp.json()
 
-# To save time, we'll assign a variable for the first player
+
 player_data = match_data['info']['participants'][0]
 k = player_data['kills']
 d = player_data['deaths']
