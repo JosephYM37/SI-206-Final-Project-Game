@@ -21,7 +21,7 @@ conn = sqlite3.connect('games_database.db')
 cursor = conn.cursor()
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS League_of_Legends
-                  (Id INT, Name TEXT, Rank INT, Rating REAL, Playtime INT)''')
+                  (Id INT, Name TEXT, Rating REAL, Playtime INT)''')
 
 cursor.execute("INSERT INTO League_of_Legends (id, name, rating, playtime) VALUES (?, ?, ?, ?)",
                (game_info['id'], game_info['name'], game_info['rating'], game_info['playtime']))
