@@ -77,6 +77,7 @@ for game_info in games_info:
         # If the game playtime doesn't exist in the GamePlaytimes table, insert it
         cursor.execute("INSERT INTO GamePlaytimes (Id, Playtime) VALUES (?, ?)",
                        (game_info['id'], game_info['playtime']))
+        
 # Increment the current page number and update it in the database
 current_page += 1
 cursor.execute("UPDATE PageInfo SET Value = ? WHERE Info = 'CurrentPage'", (current_page,))
