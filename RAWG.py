@@ -3,14 +3,13 @@ import sqlite3
 import matplotlib.pyplot as plt
 import requests
 
-api_key = "34cf19bf45874c2c9d0ed8defa498b17"
-api_url = f"https://api.rawg.io/api/games"
-api_url = api_url + '?key=' + api_key
+api_url = 'https://api.rawg.io/api/games?key=34cf19bf45874c2c9d0ed8defa498b17'  
+page_size = 25
 
 # Function to get games info from API
-def get_games_info(api_url, tag, ordering, page):
+def get_games_info(api_url, tag, ordering, current_page, page_size):
     # Make the API request with the current page number
-    response = requests.get(f'{api_url}&tags={tag}&ordering={ordering}&page_size=25&page={page}')
+    response = requests.get(f'{api_url}&tags={tag}&ordering={ordering}&page_size={page_size}&page={current_page}')
     # Parse the JSON response
     data = response.json()
     # Return the 'results' field of the response, or an empty list if 'results' is not present
@@ -27,9 +26,10 @@ def update_database(cursor, games_info):
                        (game_info['id'], game_info['playtime']))
 
 def main():
-    api_url = 'https://api.rawg.io/api/games?key=YOUR_API_KEY'
-    tag = 'MOBA'
+    api_url = 'https://api.rawg.io/api/games?key=34cf19bf45874c2c9d0ed8defa498b17'
+    tag = 'moba'
     ordering = '-rating'
+    page_size=25
 
     conn = sqlite3.connect('games_database.db')
     cursor = conn.cursor()
@@ -46,15 +46,16 @@ def main():
     current_page = row[0] if row else 1
 
     while True:
-        games_info = get_games_info(api_url, tag, ordering, current_page)
+        games_info = get_games_info(api_url, tag, ordering, current_page, page_size)
         if not games_info:
             break
 
         update_database(cursor, games_info)
 
-        current_page += 1
+        # Update the current page number in the PageInfo table
         cursor.execute("INSERT OR REPLACE INTO PageInfo (Info, Value) VALUES ('CurrentPage', ?)", (current_page,))
 
+        current_page += 1
         # Break the loop after processing one page of results
         break
 
