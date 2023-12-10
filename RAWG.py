@@ -6,18 +6,24 @@ import matplotlib.pyplot as plt
 import requests
 
 api_key = "34cf19bf45874c2c9d0ed8defa498b17"
-api_url = "https://api.rawg.io/api/games"
+api_url = f"https://api.rawg.io/api/games"
 api_url = api_url + '?key=' + api_key
 
-resp = requests.get(api_url)
+game_name = 'League of Legends'
 
-url = "https://rawg-video-games-database.p.rapidapi.com/games/league-of-legends"
+response = requests.get(f'{api_url}&search={game_name}')
+ 
+data = response.json()
+game_info = data['results'][0]
 
-headers = {
-	"X-RapidAPI-Key": "bd83204c63msh395f771e02eb0ddp15ced2jsna2072c4e0f3e",
-	"X-RapidAPI-Host": "rawg-video-games-database.p.rapidapi.com"
-}
+conn = sqlite3.connect('games_database.db')
 
-response = requests.get(url, headers=headers)
+cursor = conn.cursor()
 
-print(response.json())
+cursor.execute('''CREATE TABLE IF NOT EXISTS League_of_Legends
+                  (Id INT, Name TEXT, Rank INT, Rating REAL, Playtime INT)''')
+
+cursor.execute("INSERT INTO League_of_Legends (id, name, rating, playtime) VALUES (?, ?, ?, ?)",
+               (game_info['id'], game_info['name'], game_info['rating'], game_info['playtime']))
+conn.commit()
+conn.close()
