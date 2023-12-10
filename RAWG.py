@@ -52,18 +52,31 @@ response = requests.get(f'{api_url}&tags={tag}&ordering={ordering}&page_size=25&
 data = response.json()
 games_info = data['results']
 
-# Create table
-cursor.execute('''CREATE TABLE IF NOT EXISTS MOBA_Games
-                  (Id INT, Name TEXT, Rating REAL, Playtime INT)''')
+# Create the GameNames table
+cursor.execute('''CREATE TABLE IF NOT EXISTS GameNames
+                  (Id INT PRIMARY KEY, Name TEXT)''')
+
+# Create the GamePlaytimes table
+cursor.execute('''CREATE TABLE IF NOT EXISTS GamePlaytimes
+                  (Id INT PRIMARY KEY, Playtime INT)''')
 
 # Insert the games' information into the database
 for game_info in games_info:
-    cursor.execute("SELECT * FROM MOBA_Games WHERE Id = ?", (game_info['id'],))
+    # Check if the game name already exists in the GameNames table
+    cursor.execute("SELECT * FROM GameNames WHERE Id = ?", (game_info['id'],))
     game_in_db = cursor.fetchone()
     if game_in_db is None:
-        cursor.execute("INSERT INTO MOBA_Games (Id, Name, Metacritic, Rating, Playtime) VALUES (?, ?, ?, ?, ?)",
-                       (game_info['id'], game_info['name'], game_info['metacritic'], game_info['rating'], game_info['playtime']))
+        # If the game name doesn't exist in the GameNames table, insert it
+        cursor.execute("INSERT INTO GameNames (Id, Name) VALUES (?, ?)",
+                       (game_info['id'], game_info['name']))
 
+    # Check if the game playtime already exists in the GamePlaytimes table
+    cursor.execute("SELECT * FROM GamePlaytimes WHERE Id = ?", (game_info['id'],))
+    game_in_db = cursor.fetchone()
+    if game_in_db is None:
+        # If the game playtime doesn't exist in the GamePlaytimes table, insert it
+        cursor.execute("INSERT INTO GamePlaytimes (Id, Playtime) VALUES (?, ?)",
+                       (game_info['id'], game_info['playtime']))
 # Increment the current page number and update it in the database
 current_page += 1
 cursor.execute("UPDATE PageInfo SET Value = ? WHERE Info = 'CurrentPage'", (current_page,))
