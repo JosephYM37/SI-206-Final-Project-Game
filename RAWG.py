@@ -45,19 +45,22 @@ def main():
     row = cursor.fetchone()
     current_page = row[0] if row else 1
 
-    while True:
-        games_info = get_games_info(api_url, tag, ordering, current_page, page_size)
-        if not games_info:
-            break
+    # Fetch the games info
+    games_info = get_games_info(api_url, tag, ordering, current_page, page_size)
 
-        update_database(cursor, games_info)
+    # If there are no games, exit the script
+    if not games_info:
+        print("No more games to fetch.")
+        return
 
-        # Update the current page number in the PageInfo table
-        cursor.execute("INSERT OR REPLACE INTO PageInfo (Info, Value) VALUES ('CurrentPage', ?)", (current_page,))
+    # Update the database with the new games
+    update_database(cursor, games_info)
 
-        current_page += 1
-        # Break the loop after processing one page of results
-        break
+    # Update the current page number in the PageInfo table
+    cursor.execute("INSERT OR REPLACE INTO PageInfo (Info, Value) VALUES ('CurrentPage', ?)", (current_page,))
+
+    # Increment the current page number for the next run
+    current_page += 1
 
     conn.commit()
     conn.close()
