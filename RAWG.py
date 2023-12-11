@@ -1,6 +1,5 @@
 #Robin Jiao
 import sqlite3
-import matplotlib.pyplot as plt
 import requests
 
 api_url = 'https://api.rawg.io/api/games?key=34cf19bf45874c2c9d0ed8defa498b17'  
