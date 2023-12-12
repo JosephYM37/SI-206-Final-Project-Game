@@ -12,7 +12,6 @@ cursor.execute('''
     JOIN GamePlaytimes ON GameNames.ID = GamePlaytimes.ID
 ''')
 
-
 # Commit changes to the database
 conn.commit()
 conn.close()
