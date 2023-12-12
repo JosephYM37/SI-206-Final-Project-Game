@@ -43,6 +43,11 @@ avg_duration_public_matches = df_public_matches['duration_seconds'].mean() / 60 
 avg_duration_pro_matches = df_pro_matches['duration_seconds'].mean() / 60 # convert to minutes
 
 # Second subplot
+ # Plot the bar chart
+names = ['Public Matches', 'Pro Matches']
+values = [avg_duration_public_matches, avg_duration_pro_matches]
+
+    # For bar chart
 plt.bar(names, values, color=['blue', 'red'])
 plt.ylabel('Average Duration (minutes)', fontsize=12, weight='bold')
 plt.title('Comparison of Average Durations for Public and Pro Matches from OpenDota API', fontsize=14, weight='bold')
