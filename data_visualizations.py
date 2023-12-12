@@ -112,7 +112,7 @@ plt.figure(figsize=(8, 5))  # Adjust the figure size if needed
 plt.plot(time_slots, kda_values, marker='o', linestyle='-')
 
 # Title and labels
-plt.title('Average K/D/A vs Time Slot')
+plt.title('Average K/D/A vs Time Slot for League of Legends')
 plt.xlabel('Time Slot')
 plt.ylabel('Average K/D/A')
 
