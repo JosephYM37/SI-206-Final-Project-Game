@@ -3,3 +3,6 @@
 import sqlite3
 import requests
 import matplotlib.pyplot as plt
+
+conn = sqlite3.connect('your_database.db')
+cursor = conn.cursor()
