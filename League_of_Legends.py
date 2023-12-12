@@ -2,7 +2,7 @@ import json
 import sqlite3
 import requests
 
-api_key = "RGAPI-c7d397e6-f3ae-499b-b4ec-a4e426cd40e1"
+api_key = "RGAPI-62a08042-f71c-447a-a838-dda03f1df511"
 region = 'ASIA'
 puuid = 'vtIfRD_OKhXlZHUeqLka5ImRnpV3uyKIqkpwpvGKbmPcuhcsVBcs92WnmxaiHDYLFb1m66bHxuUaKg'
 
