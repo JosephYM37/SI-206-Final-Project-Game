@@ -31,7 +31,7 @@ plt.show()
 
  #data visualiztion
     # Connect to SQLite database
-conn = sqlite3.connect('dota2_db.sqlite')
+conn = sqlite3.connect('games_database.db')
 
     # Execute the query and convert it into a pandas DataFrame
 df_public_matches = pd.read_sql_query("SELECT * from publicMatches", conn)
