@@ -18,7 +18,7 @@ result = cursor.fetchone()
 dota2_playtime = result[0] if result else None
 
 # Create a figure and a set of subplots
-fig, axs = plt.subplots(2, 2, figsize=(15, 15))  # 2 rows, 2 columns
+fig, axs = plt.subplots(3, 2, figsize=(15, 15))  # 3 rows, 2 columns 
 
 # First subplot
 axs[0, 0].bar(['League of Legends', 'Dota2'], [lol_playtime, dota2_playtime], color=['DeepSkyBlue','green'])
@@ -48,7 +48,7 @@ values = [avg_duration_public_matches, avg_duration_pro_matches]
 
 axs[0, 1].bar(names, values)
 axs[0, 1].set_ylabel('Average Duration (minutes)')
-axs[0, 1].set_title('Comparison of Average Durations for Public and Pro Matches')
+axs[0, 1].set_title('Comparison of Average Durations for Public and Pro Matches in Dota2')
 
 # Load player data into DataFrame
 df_pro_players = pd.read_sql_query("SELECT * from proPlayers", conn)
@@ -77,9 +77,9 @@ axs[2, 1].set_title('Histogram of Rank Tiers (proPlayers) from OpenDota API', we
 axs[2, 1].set_xlabel('Rank Tier', fontsize=14)
 axs[2, 1].set_ylabel('Frequency', fontsize=14)
 
-
 # Automatically adjust subplot params for better spacing
 plt.tight_layout()
+plt.subplots_adjust(hspace=0.25, wspace=0.25)
 plt.show()
 
 conn.close()
