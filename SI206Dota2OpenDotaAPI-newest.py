@@ -70,7 +70,6 @@ def init_db():
             kills INTEGER,
             deaths INTEGER,
             assists INTEGER,
-            kda REAL,
             match_id INTEGER,
             duration TEXT
         )
