@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import timedelta
 
 # Connect to the database
 conn = sqlite3.connect('games_database.db')
@@ -96,3 +97,5 @@ for slot, avg_kda in average_kda.items():
 
 # Close the connection
 conn.close()
+
+

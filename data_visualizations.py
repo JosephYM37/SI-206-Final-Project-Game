@@ -70,3 +70,25 @@ plt.tight_layout()
 plt.show()
 
 conn.close()
+
+time_slots = ['< 10', '10 - 20', '20 - 30', '30 - 40', '40+']
+kda_values = [0.00, 3.67, 4.86, 3.76, 3.36]
+
+# Create a line graph
+plt.figure(figsize=(8, 5))  # Adjust the figure size if needed
+plt.plot(time_slots, kda_values, marker='o', linestyle='-')
+
+# Title and labels
+plt.title('Average K/D/A vs Time Slot')
+plt.xlabel('Time Slot')
+plt.ylabel('Average K/D/A')
+
+# Show grid
+plt.grid(True)
+
+# Rotate x-axis labels for better readability if needed
+plt.xticks(rotation=45)
+
+# Show the plot
+plt.tight_layout()
+plt.show()
