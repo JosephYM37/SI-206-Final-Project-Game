@@ -87,17 +87,33 @@ match_id_to_check2 = "KR_6800509589" # match 21-40
 match_id_to_check3 = "KR_6793066935" # match 41-60
 match_id_to_check4 = "KR_6789837280" # match 61-80
 
+def convert_champion_name(champion_name):
+    champion_mapping = {
+        'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9, 'J': 10,
+        'K': 11, 'L': 12, 'M': 13, 'N': 14, 'O': 15, 'P': 16, 'Q': 17, 'R': 18, 'S': 19,
+        'T': 20, 'U': 21, 'V': 22, 'W': 23, 'X': 24, 'Y': 25, 'Z': 26
+    }
+    first_letter = champion_name[0].upper()  # Get the first letter and convert to uppercase
+    if first_letter in champion_mapping:
+        return champion_mapping[first_letter]
+    else:
+        return 0  # Return 0 or handle the case if the first letter isn't in the mapping
+
+# Your database connection and table creation code
 conn = sqlite3.connect('games_database.db')
 cursor = conn.cursor()
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS Faker_matches
                   (Match_ID TEXT PRIMARY KEY,
                   Game_Duration INT, 
-                  Champion TEXT, 
+                  Champion INTEGER, 
                   Kills INT, 
                   Deaths INT, 
                   Assists INT, 
                   Victory TEXT)''')
+
+
+matches = [match_id_to_check1, match_id_to_check2, match_id_to_check3, match_id_to_check4]
 
 if cursor.execute("SELECT COUNT(*) FROM Faker_matches WHERE match_id = ?", (match_id_to_check4,)).fetchone()[0] > 0:
     mat = matches3
@@ -110,6 +126,9 @@ elif cursor.execute("SELECT COUNT(*) FROM Faker_matches WHERE match_id = ?", (ma
 else:
     mat = matches
 
+# Your loop to fetch and insert match data
+# Assuming you have your 'get_match_data' and other functions defined
+
 for match_id in mat:
     match_data = get_match_data(region, match_id, api_key)
     # Extract relevant data
@@ -117,7 +136,7 @@ for match_id in mat:
     minutes, seconds = divmod(total_seconds, 60)
     time_format = "{:02d}:{:02d}".format(int(minutes), int(seconds))
     
-    champion_val = get_champion(puuid, match_data)
+    champion_val = convert_champion_name(get_champion(puuid, match_data))
     kill_val = get_kill(puuid, match_data)
     death_val = get_death(puuid, match_data)
     assist_val = get_assist(puuid, match_data)
@@ -127,7 +146,7 @@ for match_id in mat:
     cursor.execute('''INSERT OR IGNORE INTO Faker_matches 
                     (Match_ID, Game_Duration, Champion, Kills, Deaths, Assists, Victory) 
                     VALUES (?, ?, ?, ?, ?, ?, ?)''',
-                (match_id, time_format, champion_val, kill_val, death_val, assist_val, victory_val))
+                    (match_id, time_format, champion_val, kill_val, death_val, assist_val, victory_val))
 
 # Commit changes and close the connection after the loop
 conn.commit()
