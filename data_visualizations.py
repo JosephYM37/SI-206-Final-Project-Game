@@ -54,16 +54,29 @@ axs[0, 1].set_title('Comparison of Average Durations for Public and Pro Matches'
 df_pro_players = pd.read_sql_query("SELECT * from proPlayers", conn)
 
 # Third subplot
-axs[1, 0].hist(df_pro_players['kills'])
-axs[1, 0].set_title('Histogram of Kills (proPlayers)')
-axs[1, 0].set_xlabel('Kills')
-axs[1, 0].set_ylabel('Frequency')
+axs[1, 0].hist(df_pro_players['kills'], color='blue', edgecolor='black', linewidth=1.2, bins=20)
+axs[1, 0].set_title('Histogram of Kills (proPlayers) from OpenDota API', weight='bold')
+axs[1, 0].set_xlabel('Kills', fontsize=14)
+axs[1, 0].set_ylabel('Frequency', fontsize=14)
 
 # Fourth subplot
-axs[1, 1].hist(df_pro_players['deaths'])
-axs[1, 1].set_title('Histogram of Deaths (proPlayers)')
-axs[1, 1].set_xlabel('Deaths')
-axs[1, 1].set_ylabel('Frequency')
+axs[1, 1].hist(df_pro_players['deaths'], color='red', edgecolor='black', linewidth=1.2, bins=20)
+axs[1, 1].set_title('Histogram of Deaths (proPlayers) from OpenDota API', weight='bold')
+axs[1, 1].set_xlabel('Deaths', fontsize=14)
+axs[1, 1].set_ylabel('Frequency', fontsize=14)
+
+# Fifth subplot
+axs[2, 0].hist(df_pro_players['assists'], color='green', edgecolor='black', linewidth=1.2, bins=20)
+axs[2, 0].set_title('Histogram of Assists (proPlayers) from OpenDota API', weight='bold')
+axs[2, 0].set_xlabel('Assists', fontsize=14)
+axs[2, 0].set_ylabel('Frequency', fontsize=14)
+
+# Sixth subplot
+axs[2, 1].hist(df_pro_players['rank_tier'], color='purple', edgecolor='black', linewidth=1.2, bins=20)
+axs[2, 1].set_title('Histogram of Rank Tiers (proPlayers) from OpenDota API', weight='bold')
+axs[2, 1].set_xlabel('Rank Tier', fontsize=14)
+axs[2, 1].set_ylabel('Frequency', fontsize=14)
+
 
 # Automatically adjust subplot params for better spacing
 plt.tight_layout()
