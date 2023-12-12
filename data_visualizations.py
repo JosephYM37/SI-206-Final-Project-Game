@@ -17,13 +17,17 @@ cursor.execute("SELECT Playtime FROM JoinedData WHERE Name = 'Dota 2'")
 result = cursor.fetchone()
 dota2_playtime = result[0] if result else None
 
+# Create a figure and a set of subplots
+fig, axs = plt.subplots(1, 1, figsize=(10, 10))  # 1 row, 1 column
 
 # First subplot
-axs[0, 0].bar(['League of Legends', 'Dota2'], [lol_playtime, dota2_playtime], color=['DeepSkyBlue','green'])
-axs[0, 0].set_xlabel('Game')
-axs[0, 0].set_ylabel('Average Playtime (hours)')
-axs[0, 0].set_title('Average Self-Reported Playtimes of League of Legends and Dota2')
-axs[0, 0].set_yticks(range(0, 125, 5))
+axs.bar(['League of Legends', 'Dota2'], [lol_playtime, dota2_playtime], color=['DeepSkyBlue','green'])
+axs.set_xlabel('Game')
+axs.set_ylabel('Average Playtime (hours)')
+axs.set_title('Average Self-Reported Playtimes of League of Legends and Dota2')
+axs.set_yticks(range(0, 125, 5))
+
+plt.show()
 
  #data visualiztion
     # Connect to SQLite database
