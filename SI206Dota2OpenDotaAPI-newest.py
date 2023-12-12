@@ -46,23 +46,11 @@ def make_api_request(api_endpoint, params=None):
         print(f"Error: {e}")
         return None
     
-'''
-def drop_tables():
-    conn = sqlite3.connect('dota2_db.sqlite')
-    cur = conn.cursor()
-
-    cur.execute('DROP TABLE IF EXISTS proPlayers')
-    cur.execute('DROP TABLE IF EXISTS proMatches')
-    cur.execute('DROP TABLE IF EXISTS publicMatches')
-
-    conn.commit()
-    conn.close()
-'''
 #database section
 def init_db():
 
     # Connect to SQLite database
-    conn = sqlite3.connect('dota2_db.sqlite')
+    conn = sqlite3.connect('games_database.db')
 
     # Cursor to execute SQLite commands
     cur = conn.cursor()
@@ -117,7 +105,7 @@ def main():
     init_db()
     
     # Connect to SQLite database
-    conn = sqlite3.connect('dota2_db.sqlite')
+    conn = sqlite3.connect('games_database.db')
     cur = conn.cursor()
 
     # Get pro players' data
@@ -256,6 +244,6 @@ def main():
 
     # Close connection to database when done
     conn.close()
-    
+
 if __name__ == "__main__":
     main()
