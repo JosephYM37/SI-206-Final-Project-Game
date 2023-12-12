@@ -1,0 +1,24 @@
+Final Calculations
+
+Calculations # 1: Average number of games LOL
+
+Average game duration for League of Legends: 23.76 minutes
+            -from the Faker_matches table
+Total playtime for League of Legends: 116 hours
+            -from the JoinedData
+total_playtime * 60 / average_game_duration
+         (* 60 to convert hours to minutes)
+Average number of games played: 292.0
+
+Calculations # 2: Game Duration vs k/d/a
+    -data from the Faker_matches table
+    -Grouped League of Legend Matches by games >10 minutes, 10-20, 20-30, 30-40 and 40+
+    -the average k/d/a was calculated by using the formula (kills + assists)/deaths
+    -the k/d/a was then averaged by the number of games in that categorie
+    -the table shown below displays that information
+Time Slot    Average K/D/A
+< 10         0.00
+10 - 20      3.67
+20 - 30      4.86
+30 - 40      3.76
+40+          3.36
