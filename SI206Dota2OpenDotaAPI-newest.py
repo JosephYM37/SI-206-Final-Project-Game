@@ -46,23 +46,11 @@ def make_api_request(api_endpoint, params=None):
         print(f"Error: {e}")
         return None
     
-'''
-def drop_tables():
-    conn = sqlite3.connect('dota2_db.sqlite')
-    cur = conn.cursor()
-
-    cur.execute('DROP TABLE IF EXISTS proPlayers')
-    cur.execute('DROP TABLE IF EXISTS proMatches')
-    cur.execute('DROP TABLE IF EXISTS publicMatches')
-
-    conn.commit()
-    conn.close()
-'''
 #database section
 def init_db():
 
     # Connect to SQLite database
-    conn = sqlite3.connect('dota2_db.sqlite')
+    conn = sqlite3.connect('games_database.db')
 
     # Cursor to execute SQLite commands
     cur = conn.cursor()
@@ -116,7 +104,7 @@ def main():
     init_db()
     
     # Connect to SQLite database
-    conn = sqlite3.connect('dota2_db.sqlite')
+    conn = sqlite3.connect('games_database.db')
     cur = conn.cursor()
 
     # Get pro players' data
@@ -254,88 +242,6 @@ def main():
                 print(json.dumps(match_info, indent=2))
 
     # Close connection to database when done
-    conn.close()
-
-    #data visualiztion
-    # Connect to SQLite database
-    conn = sqlite3.connect('dota2_db.sqlite')
-
-    # Execute the query and convert it into a pandas DataFrame
-    df_public_matches = pd.read_sql_query("SELECT * from publicMatches", conn)
-    df_pro_matches = pd.read_sql_query("SELECT * from proMatches", conn)
-
-    # Calculate the average duration for public and pro matches
-    # The duration column is currently a string in the format "HH:MM:SS". We need to convert it to seconds for calculation.
-    df_public_matches['duration_seconds'] = pd.to_timedelta(df_public_matches['duration']).dt.total_seconds()
-    df_pro_matches['duration_seconds'] = pd.to_timedelta(df_pro_matches['duration']).dt.total_seconds()
-
-    # Calculate the averages
-    avg_duration_public_matches = df_public_matches['duration_seconds'].mean() / 60 # convert to minutes
-    avg_duration_pro_matches = df_pro_matches['duration_seconds'].mean() / 60 # convert to minutes
-
-    # Plot the bar chart
-    names = ['Public Matches', 'Pro Matches']
-    values = [avg_duration_public_matches, avg_duration_pro_matches]
-
-    # For bar chart
-    plt.bar(names, values, color=['blue', 'red'])
-    plt.ylabel('Average Duration (minutes)', fontsize=12, weight='bold')
-    plt.title('Comparison of Average Durations for Public and Pro Matches from OpenDota API', fontsize=14, weight='bold')
-    plt.show()
-
-    # Don't forget to close the connection when you're done
-    conn.close()
-    #You may use a similar approach for displaying histograms for player data. 
-
-    # Connect to SQLite database
-    conn = sqlite3.connect('dota2_db.sqlite')
-
-    # Load player data into DataFrame
-    df_pro_players = pd.read_sql_query("SELECT * from proPlayers", conn)
-
-   # For histograms
-    plt.figure(figsize=(5,5))
-    plt.hist(df_pro_players['kills'], color='blue', edgecolor='black', linewidth=1.2, bins=20)
-    plt.title('Histogram of Kills (proPlayers) from OpenDota API', weight='bold')
-    plt.xlabel('Kills', fontsize=14)
-    plt.ylabel('Frequency', fontsize=14)
-    plt.show()
-
-    plt.figure(figsize=(5,5))
-    plt.hist(df_pro_players['deaths'], color='red', edgecolor='black', linewidth=1.2, bins=20)
-    plt.title('Histogram of Deaths (proPlayers) from OpenDota API', weight='bold')
-    plt.xlabel('Deaths', fontsize=14)
-    plt.ylabel('Frequency', fontsize=14)
-    plt.show()
-
-    plt.figure(figsize=(5,5))
-    plt.hist(df_pro_players['assists'], color='green', edgecolor='black', linewidth=1.2, bins=20)
-    plt.title('Histogram of Assists (proPlayers) from OpenDota API', weight='bold')
-    plt.xlabel('Assists', fontsize=14)
-    plt.ylabel('Frequency', fontsize=14)
-    plt.show()
-
-    plt.figure(figsize=(5,5))
-    plt.hist(df_pro_players['rank_tier'], color='purple', edgecolor='black', linewidth=1.2, bins=20)
-    plt.title('Histogram of Rank Tiers (proPlayers) from OpenDota API', weight='bold')
-    plt.xlabel('Rank Tier', fontsize=14)
-    plt.ylabel('Frequency', fontsize=14)
-    plt.show()
-
-    plt.figure(figsize=(5,5))
-    plt.hist(df_pro_players['wins'], color='orange', edgecolor='black', linewidth=1.2, bins=20)
-    plt.title('Histogram of Wins (proPlayers) from OpenDota API', weight='bold')
-    plt.xlabel('Wins', fontsize=14)
-    plt.ylabel('Frequency', fontsize=14)
-    plt.show()
-
-    plt.figure(figsize=(5,5))
-    plt.hist(df_pro_players['losses'], color='pink', edgecolor='black', linewidth=1.2, bins=20)
-    plt.title('Histogram of Losses (proPlayers) from OpenDota API', weight='bold')
-    plt.xlabel('Losses', fontsize=14)
-    plt.ylabel('Frequency', fontsize=14)
-    plt.show()
-  
     conn.close()
 
 if __name__ == "__main__":
