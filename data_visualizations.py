@@ -51,7 +51,6 @@ values = [avg_duration_public_matches, avg_duration_pro_matches]
 plt.bar(names, values, color=['blue', 'red'])
 plt.ylabel('Average Duration (minutes)', fontsize=12, weight='bold')
 plt.title('Comparison of Average Durations for Public and Pro Matches from OpenDota API', fontsize=14, weight='bold')
-plt.show()
 
 axs[0, 1].bar(names, values)
 axs[0, 1].set_ylabel('Average Duration (minutes)')
